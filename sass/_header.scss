@@ -1,0 +1,83 @@
+@import "base";
+
+.header {
+	background-color: $color-grey-dark-1;
+	grid-column: full-bleed-start / col-end 6;
+	background-image: linear-gradient(rgba($color-secondary, .93), rgba($color-secondary, .93)),
+										url("../img/hero.jpeg");
+	background-size: cover;
+	padding: 4rem 8rem 8rem;
+
+	display: grid;
+	//grid-template-columns: max-content;
+	grid-template-columns: minmax(min-content, max-content);
+	justify-content: center;
+
+	// *** grid rows setup
+	// giving first row 1fr unit will position the rest of the rows
+	// to be sized automatically (all of then move to the bottom)
+	// What is the value of 1fr unit in this first row? The 1fr === 80vh same as the first row in the container => grid-template-rows: 1fr
+	//grid-template-rows: 1fr min-content 6rem 1fr;
+	grid-template-rows: 1fr min-content minmax(min-content, 6rem) 1fr;
+	grid-row-gap: 1.5rem;
+
+	@media only screen and (max-width: $bp-medium) {
+		grid-column: full-bleed-start / full-bleed-end;
+	}
+
+	&__logo {
+		height: 3rem;
+		justify-self: center;
+	}
+
+	&__btn {
+		align-self: start;
+		justify-self: start;
+	}
+
+	// IMPORTANT!! text can be treated as grid items
+	// so they don't need a grid container to set to grid item
+	// also pseudo elements can be grid item as well
+	&__seenon-text {
+		font-size: 1.6rem;
+		color: $color-grey-light-2;
+
+		display: grid;
+		grid-template-columns: 1fr max-content 1fr;
+		grid-column-gap: 1.5rem;
+		align-items: center;
+
+		&::before,
+		&::after {
+			content: '';
+			display: block;
+			height: 0.1rem;
+			background-color: currentColor;
+		}
+	}
+
+	&__seenon-logos {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		grid-column-gap: 3rem;
+		justify-items: center;
+		align-items: center;
+
+		img {
+			// 1. using max-height and max-width is part of the solution
+			// to make the header responsive. This way images change sizes when
+			// resizing screen and they scale properly.
+			// 2. the second step in the solution is to review the setup of the
+			// header grid specific the -> grid-template-columns: max-content;
+			// the max-content value doesn't allow the page to resize properly
+			// we need a minmax function to fix it (go to line # 12)
+			// 3. the third step is to review the height of the rows so the
+			// content in the header doesn't overflow -> grid-template-rows: 1fr min-content 6rem 1fr;
+			// the value of 6rem in the third row is the one that causing the overflow
+			// using a minmax() to fix it
+			max-height: 2.5rem;
+			max-width: 100%;
+			filter: brightness(70%);
+		}
+	}
+}

@@ -1,0 +1,93 @@
+@import "base";
+
+.homes {
+	grid-column: system-grid-start / system-grid-end;
+	margin: 15rem 0;
+
+	@media only screen and (max-width: $bp-medium) {
+		margin: 6rem 0;
+	}
+
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+	grid-gap: 7rem;
+}
+
+.home {
+	background-color: $color-grey-light-1;
+
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-row-gap: 3.5rem; // giving spaces between rows to separate elements
+
+	&__img {
+		width: 100%;
+		grid-column: 1 / -1;
+		grid-row: 1 / 2;
+		z-index: 1;
+	}
+
+	&__like {
+		fill: $color-primary;
+		width: 2.5rem;
+		height: 2.5rem;
+
+		// using grid item overlapping to position the like icon
+		grid-column: 2 / -1;
+		grid-row: 1 / 2;
+		justify-self: end;
+		z-index: 2;
+		margin: 1rem;
+	}
+
+	&__name {
+		grid-column: 1 / -1;
+
+		// basic text styling
+		font-family: $font-display;
+		font-size: 1.6rem;
+		text-align: center;
+		padding: 1.25rem;
+		background-color: $color-secondary;
+		color: #fff;
+		font-weight: 400;
+		text-transform: capitalize;
+
+		// *** text position with overlapping using grid ***
+		width: 80%;
+		align-self: end;
+
+		// overlapping with first row
+		grid-row: 1 / 2; 			// same column - row as the image
+		z-index: 3;						// move on top of the image
+		justify-self: center; // move vertically to the bottom of the track
+		transform: translateY(50%); // move 50% of its height and place it at the center
+	}
+
+	&__location,
+	&__rooms {
+		margin-top: 1.2rem;
+	}
+
+	&__location,
+	&__rooms,
+	&__area,
+	&__price {
+		font-size: 1.5rem;
+		margin-left: 2rem;
+
+		display: flex;
+		align-items: center;
+
+		svg {
+			fill: $color-primary;
+			width: 2rem;
+			height: 2rem;
+			margin-right: 1rem;
+		}
+	}
+
+	&__button {
+		grid-column: 1 / -1;
+	}
+}

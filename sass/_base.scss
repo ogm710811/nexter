@@ -13,3 +13,79 @@ $color-grey-dark-2: #6D5D4B;
 // FONT VARIABLES
 $font-primary: 'Nunito', sans-serif;
 $font-display: 'Josefin Sans', sans-serif;
+
+// RESPONSIVE BREAKPOINTS
+$bp-extra-large: 75em;	// 1200px / 16px = 75em
+$bp-large: 63.125em; // 1010px / 16px = 63.125em
+$bp-medium: 50em; // 800px / 16px = 50em
+$bp-small: 37.5em; // 600px / 16 = 37.5em
+
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: inherit;
+}
+
+html {
+	box-sizing: border-box;
+	font-size: 62.5%;  // 10px / 16px = 62.5% -> 1rem = 10px
+	
+	@media only screen and (max-width: $bp-extra-large) {
+		font-size: 50%;
+	}
+}
+
+body {
+	font-family: $font-primary;
+	color: $color-grey-dark-2;
+	font-weight: 300;
+	line-height: 1.6;
+}
+
+.container {
+	display: grid;
+
+	// grid setup
+	// ROWS ::
+	// rows: ** defines with responsiveness in mind so not define in fixed units like px
+	// row 1 with high viewport
+	// row 2 with min content. the row will grows with the content
+	// row 3 with width viewport
+	// rest of rows with min content
+	grid-template-rows: 80vh min-content 40vw repeat(3, min-content);
+
+	// COLUMNS ::
+	// it's very common in web design to use a grid system of 8, 12, 16 predefined columns
+	// this will be an 8 columns grid system, the simple way will be => grid-template-columns: repeat(8, 1fr)
+	// but we want this columns to have a fixed width and get center in the middle
+	// for that we need to define teh width of the page usually 1140 px => 1140 / 8 columns  142.5 ~ 140px(14 rem) => grid-template-columns: repeat(8, 14rem)
+	// so in order to teh columns to adapt to the content we need => grid-template-columns: repeat(8, minmax(min-content, 14rem))
+
+	// 2. adding the sidebar column of 8rem => grid-template-columns: 8rem repeat(8, minmax(min-content, 14rem))
+	// 3. centering the 8 inner columns between the sidebar and the end of the viewport => 8rem 1fr repeat(8, minmax(min-content, 14rem)) 1fr
+	// 4. adding names to columns for better track implementation
+	// 5. one last adjustment to avoid that the space (1fr) on the left and right side of the grid system disappear when resizing
+	// we apply minmax function with a min width to both sides => grid-template-columns: 8rem minmax(6rem, 1fr) repeat(8, minmax(min-content, 14rem)) minmax(6rem, 1fr)
+
+	grid-template-columns: [sidebar-start] 8rem
+												 [sidebar-end full-bleed-start]	minmax(6rem, 1fr)
+												 [system-grid-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end])
+												 [system-grid-end] minmax(6rem, 1fr)
+												 [full-bleed-end];
+
+	@media only screen and (max-width: $bp-large) {
+		grid-template-columns: [full-bleed-start]	minmax(6rem, 1fr)
+												 	 [system-grid-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end])
+												 	 [system-grid-end] minmax(6rem, 1fr)
+												 	 [full-bleed-end];
+		grid-template-rows: 6rem 80vh min-content 40vw repeat(3, min-content);
+	}
+
+	@media only screen and (max-width: $bp-medium) {
+		grid-template-rows: 6rem 80vh;
+	}
+
+}
+

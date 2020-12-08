@@ -1,0 +1,49 @@
+@import "base";
+
+.features {
+	grid-column: system-grid-start / system-grid-end;
+	margin: 15rem 0;
+
+	@media only screen and (max-width: $bp-medium) {
+		margin: 6rem 0;
+	}
+
+	display: grid;
+
+	// ROWS ::
+	// we don't need to specify any value for the rows
+	// we could do and we can do it basically like -> grid-template-rows: auto auto;
+	// but that is not necessary at all because that's what is gonna happen if you don't define it
+
+	// COLUMNS ::
+	// 1. define 3 equal columns -> grid-template-columns: repeat(3, 1fr);
+	// 2. IMPORTANT !!! HOW to make this section responsive without media query?
+	// so the columns move from 3x2 to 2x3 and then 1x6 grids
+	// auto-fit creates as many tracks as can fit based on the width that we define with the minmax function
+	// 25rem is a value where it looks very well
+	grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+	grid-gap: 6rem;
+	// making the text (heading & paragraph) of the grid items to align top
+	align-items: start;
+
+
+}
+
+.feature {
+	display: grid;
+	grid-template-columns: min-content 1fr;
+	grid-column-gap: 2.5rem;
+	grid-row-gap: 1.5rem;
+
+	&__icon {
+		fill: $color-primary;
+		width: 4.5rem;
+		height: 4.5rem;
+		grid-row: 1 / span 2;
+		transform: translateY(-1rem);
+	}
+
+	&__text {
+		font-size: 1.7rem;
+	}
+}
